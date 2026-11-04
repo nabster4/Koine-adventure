@@ -299,4 +299,97 @@ export const WORD_STUDIES: WordStudy[] = [
       explain: 'The Greek perfect stresses a completed action whose results continue.',
     },
   },
+  {
+    id: 'ego-eimi',
+    greek: 'ἐγώ εἰμι',
+    translit: 'egō eimi',
+    gloss: 'I am',
+    tagline: 'Two small words that made a crowd pick up stones.',
+    world:
+      'In ordinary Greek, ἐγώ εἰμι just means "it\'s me" or "I am (he)". But Greek verbs already contain the subject, so εἰμι alone means "I am". Adding ἐγώ makes it emphatic. In the Greek Old Testament, God reveals himself with this phrase: ἐγώ εἰμι ὁ ὤν — "I am the One who is" (Exodus 3:14), and in Isaiah, ἐγώ εἰμι is God\'s self-declaration: "I am he" (Isaiah 43:10, 25).',
+    scripture:
+      'John\'s Gospel builds around seven "I am" sayings with images — bread, light, door, shepherd, resurrection, way, vine — and several absolute "I am" sayings with nothing after them. When Jesus says "Before Abraham was, ἐγώ εἰμι" (John 8:58), his hearers understand it as a claim to divine identity and pick up stones.',
+    passages: [
+      { ref: 'John 8:58', greek: 'πρὶν Ἀβραὰμ γενέσθαι ἐγὼ εἰμί', note: 'Notice the contrast: Abraham "came to be" (γενέσθαι), but Jesus simply "is" (εἰμί).' },
+      { ref: 'John 18:5–6', note: 'When Jesus answers the arresting soldiers with ἐγώ εἰμι, they draw back and fall to the ground.' },
+      { ref: 'Mark 6:50', note: 'Walking on the sea, Jesus says θαρσεῖτε, ἐγώ εἰμι — "Take heart; it is I / I AM." Only God "treads on the waves of the sea" (Job 9:8).' },
+      { ref: 'John 6:35 → 15:1', note: 'Bread of life · Light of the world · Door · Good shepherd · Resurrection and life · Way, truth, life · True vine.' },
+    ],
+    reflect: 'Which of Jesus\' seven "I am" images speaks most to what you need right now?',
+    quiz: {
+      prompt: 'Why is ἐγώ εἰμι emphatic in Greek?',
+      options: ['Because εἰμι already means "I am", so ἐγώ adds stress', 'Because it is always shouted', 'Because ἐγώ is a title', 'Because it is in the past tense'],
+      answer: 0,
+      explain: 'The verb ending already shows "I". Adding the pronoun ἐγώ emphasizes it — "I myself am".',
+    },
+  },
+  {
+    id: 'soter',
+    greek: 'σῴζω / σωτήρ',
+    translit: 'sōzō / sōtēr',
+    gloss: 'save / Savior',
+    tagline: 'A title Caesar wanted for himself.',
+    world:
+      'σωτήρ ("savior, deliverer") was a title given to gods like Zeus and Asclepius and to rulers who brought rescue or peace. An inscription at Ephesus (48 BC) calls Julius Caesar "god made manifest and common savior of human life". Augustus was hailed as the σωτήρ who ended civil war. The verb σῴζω meant to rescue, keep safe, or heal.',
+    scripture:
+      'The angels announce to shepherds: "Born to you today… a σωτήρ, who is Christ the Lord" (Luke 2:11) — under the reign of Augustus (2:1). The name Jesus itself means "the LORD saves" (Matthew 1:21). And σῴζω covers the whole person: "Your faith has σέσωκέν you" (Mark 5:34) means both healed and saved.',
+    passages: [
+      { ref: 'Luke 2:11', greek: 'ἐτέχθη ὑμῖν σήμερον σωτήρ', note: 'A birth announcement that rivals imperial ones.' },
+      { ref: 'Mark 5:34', note: 'The woman with the bleeding is "saved/healed" — the same verb.' },
+      { ref: 'John 4:42', note: 'Samaritans confess Jesus as "the σωτὴρ τοῦ κόσμου" — "Savior of the world", a title also given to emperors.' },
+    ],
+    reflect: 'Salvation in the Gospels touches body, soul, and community. Where do you need God\'s rescue?',
+    quiz: {
+      prompt: 'Who besides gods was commonly called σωτήρ in the Roman world?',
+      options: ['Slaves', 'Rulers and emperors', 'Philosophers only', 'Children'],
+      answer: 1,
+      explain: 'Rulers like Julius Caesar and Augustus were honored as "savior".',
+    },
+  },
+  {
+    id: 'parakletos',
+    greek: 'παράκλητος',
+    translit: 'paraklētos',
+    gloss: 'Helper, Advocate, Comforter',
+    tagline: 'The one called to stand beside you.',
+    world:
+      'From παρά ("beside") + καλέω ("call"): someone called to your side. In legal settings, a παράκλητος was a friend or advocate who stood with you in court and spoke on your behalf.',
+    scripture:
+      'Only John uses this word. Jesus promises "another παράκλητος" (John 14:16) — another like himself — the Holy Spirit, who teaches, reminds, testifies, and convicts. In 1 John 2:1, Jesus himself is our παράκλητος before the Father. Translations vary — Helper, Counselor, Comforter, Advocate — because no single English word captures it.',
+    passages: [
+      { ref: 'John 14:16', greek: 'ἄλλον παράκλητον δώσει ὑμῖν', note: '"He will give you another Helper" — ἄλλον suggests another of the same kind as Jesus.' },
+      { ref: 'John 16:7–8', note: 'The Spirit "convicts the world" — courtroom language again.' },
+      { ref: '1 John 2:1', note: 'If anyone sins, "we have a παράκλητος with the Father, Jesus Christ the righteous".' },
+    ],
+    reflect: 'You are not left alone: someone has been called to stand beside you. How does that change how you face hard things?',
+    quiz: {
+      prompt: 'In legal settings, a παράκλητος was…',
+      options: ['A judge', 'An advocate who stood beside you', 'A prison guard', 'A tax collector'],
+      answer: 1,
+      explain: 'Literally "one called alongside" — a friend or advocate in court.',
+    },
+  },
+  {
+    id: 'hilasterion',
+    greek: 'ἱλαστήριον',
+    translit: 'hilastērion',
+    gloss: 'mercy seat, place/means of atonement',
+    tagline: 'Where heaven and earth met — once a year.',
+    world:
+      'In the wider Greek world, a ἱλαστήριον could be a gift or monument offered to make a god favorable. But Jewish readers knew it from the Greek Old Testament, where ἱλαστήριον is the gold lid of the Ark of the Covenant — the "mercy seat" — sprinkled with blood on the Day of Atonement (Leviticus 16).',
+    scripture:
+      'Paul says God "put forward" Christ as a ἱλαστήριον (Romans 3:25). Translations differ: "propitiation", "sacrifice of atonement", "mercy seat". Scholars debate the exact nuance, but the picture is powerful: the hidden mercy seat behind the curtain is now publicly displayed in Jesus, the place where sin is dealt with and God meets his people.',
+    passages: [
+      { ref: 'Romans 3:25', greek: 'ὃν προέθετο ὁ θεὸς ἱλαστήριον', note: '"Whom God put forward (publicly) as a ἱλαστήριον."' },
+      { ref: 'Hebrews 9:5', note: 'Here ἱλαστήριον clearly means the "mercy seat" on the Ark.' },
+      { ref: 'Leviticus 16:14–15', note: 'The high priest sprinkles blood on the ἱλαστήριον on the Day of Atonement.' },
+    ],
+    reflect: 'The mercy seat was hidden behind a curtain; Paul says God put it on public display. What does it mean that mercy is now openly offered?',
+    quiz: {
+      prompt: 'In the Greek Old Testament, ἱλαστήριον names…',
+      options: ['The lid of the Ark ("mercy seat")', 'The Temple gate', 'A priest\'s robe', 'The altar of incense'],
+      answer: 0,
+      explain: 'It is the mercy seat — the cover of the Ark of the Covenant (Exodus 25; Hebrews 9:5).',
+    },
+  },
 ];

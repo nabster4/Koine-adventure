@@ -3,6 +3,8 @@ import { ALPHABET } from '../data/alphabet';
 import { WORD_STUDIES } from '../data/wordStudies';
 import { CULTURE } from '../data/culture';
 import { VERSES } from '../data/verses';
+import { LESSONS } from '../data/lessons';
+import { VOCAB } from '../data/vocab';
 
 export interface Badge {
   id: string;
@@ -28,5 +30,12 @@ export const BADGES: Badge[] = [
   { id: 'parse10', icon: '🎯', name: 'Sharp Parser', description: 'Get a 10-in-a-row parsing streak', earned: (p) => p.bestParseStreak >= 10 },
   { id: 'streak3', icon: '🔥', name: 'Kindled', description: 'Study 3 days in a row', earned: (p) => p.streak >= 3 },
   { id: 'streak7', icon: '🕯️', name: 'Faithful', description: 'Study 7 days in a row', earned: (p) => p.streak >= 7 },
+  { id: 'words100', icon: '🏛️', name: 'Living Lexicon', description: 'Learn 100 vocabulary words', earned: (p) => learnedWords(p) >= 100 },
+  { id: 'wordsAll', icon: '👑', name: 'Every Word', description: `Learn all ${VOCAB.length} vocabulary words`, earned: (p) => learnedWords(p) >= VOCAB.length },
+  { id: 'lesson1', icon: '📘', name: 'Grammar Apprentice', description: 'Complete your first grammar lesson', earned: (p) => p.lessonsDone.length >= 1 },
+  { id: 'lessonAll', icon: '🎓', name: 'Grammarian', description: 'Complete every grammar lesson', earned: (p) => p.lessonsDone.length >= LESSONS.length },
+  { id: 'match30', icon: '⚡', name: 'Quick Match', description: 'Finish Word Match in under 30 seconds', earned: (p) => p.bestMatchTime !== null && p.bestMatchTime < 30 },
+  { id: 'streak30', icon: '🌟', name: 'Steadfast', description: 'Study 30 days in a row', earned: (p) => p.streak >= 30 },
   { id: 'xp1000', icon: '🏆', name: 'Diligent Scribe', description: 'Earn 1,000 XP', earned: (p) => p.xp >= 1000 },
+  { id: 'xp5000', icon: '💎', name: 'Master of Koine', description: 'Earn 5,000 XP', earned: (p) => p.xp >= 5000 },
 ];

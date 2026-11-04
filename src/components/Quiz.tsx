@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { QuizQuestion } from '../data/wordStudies';
+import { sfx } from '../lib/audio';
 
 interface Props {
   question: QuizQuestion;
@@ -14,6 +15,7 @@ export function Quiz({ question, onAnswer }: Props) {
   const pick = (i: number) => {
     if (picked !== null) return;
     setPicked(i);
+    sfx(i === question.answer ? 'correct' : 'wrong');
     onAnswer(i === question.answer);
   };
 

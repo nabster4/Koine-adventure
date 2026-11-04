@@ -5,6 +5,8 @@ import {
 } from '../data/grammar';
 import type { ProgressApi } from '../lib/progress';
 import { Back } from '../components/Back';
+import { Speak } from '../components/Speak';
+import { sfx } from '../lib/audio';
 
 const SECONDS = 60;
 type Mode = 'noun' | 'verb';
@@ -33,6 +35,7 @@ export function Parse({ api }: { api: ProgressApi }) {
     if (timeLeft <= 0) {
       setPlaying(false);
       addXp(scoreRef.current * 3);
+      sfx('complete');
       return;
     }
     const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
@@ -65,6 +68,7 @@ export function Parse({ api }: { api: ProgressApi }) {
       item.kind === 'noun'
         ? item.f.parses.some((p) => p.case === next.case && p.number === next.number && p.gender === next.gender)
         : item.f.person === next.person && item.f.number === next.number;
+    sfx(ok ? 'correct' : 'wrong');
     const newStreak = ok ? streak + 1 : 0;
     setStreak(newStreak);
     if (ok) setScore((s) => s + 1);
@@ -91,7 +95,7 @@ export function Parse({ api }: { api: ProgressApi }) {
 
   return (
     <div>
-      <Back />
+      <Back to="learn" label="Learn" />
       <h2>Parse It!</h2>
       <p className="muted">
         Greek shows a word's job in the sentence through its ending. "Parsing" means identifying those endings. How many can you get in {SECONDS} seconds?
@@ -149,7 +153,7 @@ export function Parse({ api }: { api: ProgressApi }) {
             <span>🔥 {streak}</span>
           </div>
           <div className="timer"><span style={{ width: `${(timeLeft / SECONDS) * 100}%` }} /></div>
-          <div className="greek huge">{item.f.form}</div>
+          <div className="greek huge">{item.f.form} <Speak text={item.f.form} /></div>
           {item.kind === 'noun' ? (
             <>
               {row('Case', 'case', ['nominative', 'genitive', 'dative', 'accusative'] as Case[])}

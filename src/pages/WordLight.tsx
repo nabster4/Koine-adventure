@@ -3,12 +3,14 @@ import { WORD_STUDIES } from '../data/wordStudies';
 import { addUnique, type ProgressApi } from '../lib/progress';
 import { Quiz } from '../components/Quiz';
 import { Back } from '../components/Back';
+import { Speak } from '../components/Speak';
+import { respell } from '../lib/pronounce';
 
 export function WordLight({ api }: { api: ProgressApi }) {
   const read = api.progress.studiesRead;
   return (
     <div>
-      <Back />
+      <Back to="discover" label="Discover" />
       <h2>Word Light</h2>
       <p className="muted">
         Some words carry a whole world inside them. These studies explore how a Greek word was used in everyday life, how
@@ -50,8 +52,9 @@ export function StudyDetail({ id, api }: { id: string; api: ProgressApi }) {
     <article className="study" key={study.id}>
       <Back to="light" label="Word Light" />
       <header className="study-head">
-        <div className="greek huge">{study.greek}</div>
+        <div className="greek huge">{study.greek} <Speak text={study.greek.replace(' / ', ' ')} /></div>
         <p className="translit">{study.translit} — <em>{study.gloss}</em></p>
+        <p className="muted small">Say it: {respell(study.greek.replace(' / ', ' '))}</p>
         <p className="tagline">{study.tagline}</p>
       </header>
 
@@ -71,7 +74,7 @@ export function StudyDetail({ id, api }: { id: string; api: ProgressApi }) {
           {study.passages.map((p) => (
             <li key={p.ref}>
               <strong>{p.ref}</strong>
-              {p.greek && <span className="greek"> {p.greek}</span>}
+              {p.greek && <span className="greek"> {p.greek} <Speak text={p.greek} /></span>}
               <p>{p.note}</p>
             </li>
           ))}

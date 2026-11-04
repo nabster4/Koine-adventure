@@ -12,6 +12,12 @@ export interface Progress {
   versesRead: string[];
   quizzesPassed: string[];
   bestParseStreak: number;
+  /** XP earned per day, keyed by YYYY-MM-DD (kept for the last ~120 days). */
+  xpByDay: Record<string, number>;
+  /** Vocab ids answered wrong recently, for the "Review mistakes" mode. */
+  mistakes: string[];
+  lessonsDone: string[];
+  bestMatchTime: number | null;
 }
 
 const KEY = 'koine-adventure:progress:v1';
@@ -27,6 +33,10 @@ export const EMPTY_PROGRESS: Progress = {
   versesRead: [],
   quizzesPassed: [],
   bestParseStreak: 0,
+  xpByDay: {},
+  mistakes: [],
+  lessonsDone: [],
+  bestMatchTime: null,
 };
 
 export function dayKey(d = new Date()): string {
@@ -82,6 +92,23 @@ export function levelFor(xp: number) {
   };
 }
 
+function trimDays(days: Record<string, number>): Record<string, number> {
+  const keys = Object.keys(days).sort();
+  if (keys.length <= 120) return days;
+  return Object.fromEntries(keys.slice(-120).map((k) => [k, days[k]]));
+}
+
+export const xpToday = (p: Progress) => p.xpByDay[dayKey()] ?? 0;
+
+/** Validates and merges an imported progress file. Throws on malformed input. */
+export function parseImport(json: string): Progress {
+  const data = JSON.parse(json);
+  if (typeof data !== 'object' || data === null || typeof data.xp !== 'number' || typeof data.cards !== 'object') {
+    throw new Error('This does not look like a Koine Adventure progress file.');
+  }
+  return { ...EMPTY_PROGRESS, ...data };
+}
+
 export function addUnique(list: string[], id: string): string[] {
   return list.includes(id) ? list : [...list, id];
 }
@@ -92,14 +119,20 @@ export function useProgress() {
   useEffect(() => save(progress), [progress]);
 
   const update = useCallback((fn: (p: Progress) => Progress) => {
-    setProgress((p) => touchStreak(fn(p)));
+    setProgress((p) => {
+      const next = touchStreak(fn(p));
+      const gained = next.xp - p.xp;
+      if (gained <= 0) return next;
+      return { ...next, xpByDay: trimDays({ ...next.xpByDay, [dayKey()]: (next.xpByDay[dayKey()] ?? 0) + gained }) };
+    });
   }, []);
 
   const addXp = useCallback((amount: number) => update((p) => ({ ...p, xp: p.xp + amount })), [update]);
 
   const reset = useCallback(() => setProgress(EMPTY_PROGRESS), []);
+  const replace = useCallback((p: Progress) => setProgress(p), []);
 
-  return { progress, update, addXp, reset };
+  return { progress, update, addXp, reset, replace };
 }
 
 export type ProgressApi = ReturnType<typeof useProgress>;

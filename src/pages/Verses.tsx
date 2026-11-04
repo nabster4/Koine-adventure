@@ -3,6 +3,10 @@ import { VERSES, type VerseWord } from '../data/verses';
 import { addUnique, type ProgressApi } from '../lib/progress';
 import { sample } from '../lib/random';
 import { Back } from '../components/Back';
+import { Speak } from '../components/Speak';
+import { sfx, speakGreek } from '../lib/audio';
+import { getSettings } from '../lib/settings';
+import { respell } from '../lib/pronounce';
 
 const LEVEL_NAMES = ['', 'Beginner', 'Intermediate', 'Advanced'];
 
@@ -17,7 +21,7 @@ export function Verses({ api }: { api: ProgressApi }) {
         Greek brings to light.
       </p>
       <div className="list">
-        {VERSES.map((v) => (
+        {[...VERSES].sort((a, b) => a.level - b.level).map((v) => (
           <a key={v.id} className="list-item" href={`#/verses/${v.id}`}>
             <span className="li-main">
               <strong>{v.ref}</strong>
@@ -55,16 +59,20 @@ export function VerseReader({ id, api }: { id: string; api: ProgressApi }) {
       const target = verse.words[game.targets[game.round]];
       const ok = verse.words[i].gloss === target.gloss;
       setGame({ ...game, score: game.score + (ok ? 1 : 0), result: ok });
+      sfx(ok ? 'correct' : 'wrong');
       if (ok) api.addXp(5);
       setActive(i);
+      if (game.round + 1 >= game.targets.length) setTimeout(() => sfx('complete'), 400);
       return;
     }
     setActive(i);
     setTapped((t) => new Set(t).add(i));
+    if (getSettings().autoSpeak) speakGreek(verse.words[i].text);
   };
 
   const reveal = () => {
     setRevealed(true);
+    sfx('complete');
     if (!api.progress.versesRead.includes(verse.id)) {
       api.update((p) => ({ ...p, xp: p.xp + 20, versesRead: addUnique(p.versesRead, verse.id) }));
     }
@@ -84,6 +92,10 @@ export function VerseReader({ id, api }: { id: string; api: ProgressApi }) {
     <div>
       <Back to="verses" label="All verses" />
       <h2>{verse.ref}</h2>
+      <div className="verse-actions">
+        <Speak text={verse.words.map((w) => w.text).join(' ')} label="Listen to the whole verse" className="with-label" />
+        <span className="muted small">Listen to the whole verse</span>
+      </div>
 
       <div className="card verse-card">
         <div className="verse">
@@ -124,7 +136,10 @@ export function VerseReader({ id, api }: { id: string; api: ProgressApi }) {
         <>
           {word && (
             <div className="card word-panel">
-              <div className="greek big">{word.text.replace(/[,.·[\]]/g, '')}</div>
+              <div className="greek big">
+                {word.text.replace(/[,.·[\]]/g, '')} <Speak text={word.text} />
+              </div>
+              <p className="muted small">Say it: {respell(word.text)}</p>
               <p><strong>Dictionary form:</strong> <span className="greek">{word.lemma}</span></p>
               <p><strong>Meaning:</strong> {word.gloss}</p>
               <p><strong>Parsing:</strong> {word.parse}</p>
