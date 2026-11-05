@@ -3,6 +3,9 @@ import { ALPHABET, type Letter } from '../data/alphabet';
 import { addUnique, type ProgressApi } from '../lib/progress';
 import { choices, sample } from '../lib/random';
 import { Back } from '../components/Back';
+import { Speak } from '../components/Speak';
+import { sfx, speakEnglish, speechSupported } from '../lib/audio';
+import { respellWord } from '../lib/pronounce';
 
 const ROUNDS = 10;
 
@@ -20,7 +23,7 @@ export function Alphabet({ api }: { api: ProgressApi }) {
 
   return (
     <div>
-      <Back />
+      <Back to="learn" label="Learn" />
       <h2>The Alphabet</h2>
       <p className="muted">
         Greek gave us the word "alphabet" — from its first two letters, ἄλφα and βῆτα. Tap a letter to learn it, then test yourself.
@@ -35,12 +38,18 @@ export function Alphabet({ api }: { api: ProgressApi }) {
           {selected && (
             <div className="card letter-detail">
               <div className="greek huge">{selected.upper} {selected.lower}</div>
-              <h3>{selected.name}</h3>
+              <h3>
+                {selected.name}{' '}
+                {speechSupported() && (
+                  <button className="speak" aria-label={`Say ${selected.name}`} onClick={() => speakEnglish(selected.name)}>🔊</button>
+                )}
+              </h3>
               <p><strong>Transliteration:</strong> {selected.translit}</p>
               <p><strong>Sounds like:</strong> {selected.sound}</p>
               <p>
-                <strong>Example:</strong> <span className="greek">{selected.example.greek}</span> ({selected.example.translit}) — {selected.example.meaning}
+                <strong>Example:</strong> <span className="greek">{selected.example.greek}</span> <Speak text={selected.example.greek} /> ({selected.example.translit}) — {selected.example.meaning}
               </p>
+              <p className="muted small">Say it: {respellWord(selected.example.greek)}</p>
             </div>
           )}
           <div className="letter-grid">
@@ -104,14 +113,18 @@ function LetterQuiz({ api }: { api: ProgressApi }) {
     if (name === q.name) {
       setScore((s) => s + 1);
       api.addXp(2);
-    }
+      sfx('correct');
+    } else sfx('wrong');
   };
   const next = () => {
     const r = round + 1;
     setRound(r);
     setPicked(null);
     if (r < ROUNDS) setOpts(choices(questions[r], ALPHABET, 4, (l) => l.name));
-    if (r === ROUNDS) api.addXp(10);
+    if (r === ROUNDS) {
+      api.addXp(10);
+      sfx('complete');
+    }
   };
 
   return (
@@ -136,7 +149,7 @@ function LetterQuiz({ api }: { api: ProgressApi }) {
       {picked && (
         <>
           <p className="feedback">
-            {q.name} sounds like {q.sound}. Example: <span className="greek">{q.example.greek}</span> — {q.example.meaning}
+            {q.name} sounds like {q.sound}. Example: <span className="greek">{q.example.greek}</span> <Speak text={q.example.greek} /> — {q.example.meaning}
           </p>
           <button className="primary" onClick={next}>Next →</button>
         </>

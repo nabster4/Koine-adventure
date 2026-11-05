@@ -8,7 +8,7 @@ export function World({ api }: { api: ProgressApi }) {
   const read = api.progress.cultureRead;
   return (
     <div>
-      <Back />
+      <Back to="discover" label="Discover" />
       <h2>The Ancient World</h2>
       <p className="muted">
         The New Testament was written in a real world of emperors, roads, letters, meals, and marketplaces. Step into that world
